@@ -470,6 +470,7 @@ td:last-child {
     font-weight: 600;
     display: inline-block;
     margin: 2px;
+    white-space: nowrap;
 }
 
 .long-text {
@@ -577,6 +578,41 @@ td:last-child {
     .star,
     .check {
         font-size: 18px;
+    }
+}
+
+/* MARK: ALCÍM SOROK STÍLUSA 
+*/
+.category-row {
+    background-color: var(--primary-color) !important; /* Sötét háttér */
+    color: white !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.category-row td {
+    padding: 12px !important;
+    font-size: 1.1em;
+    border-radius: 8px; /* Hogy illeszkedjen a kártyás stílushoz */
+}
+
+/* Sötét módban is maradjon jól látható */
+body[data-theme="dark"] .tag-mufaj {
+    background-color: rgba(0, 184, 148, 0.1);
+    color: #55efc4;
+    border-color: rgba(85, 239, 196, 0.3);
+}
+
+/* Mobilon ne legyen "data-label" az alcímek előtt */
+@media (max-width: 800px) {
+    .category-row td::before {
+        display: none !important;
+    }
+    .category-row td {
+        padding-left: 20px !important;
+        text-align: center !important;
     }
 }
 

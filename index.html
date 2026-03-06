@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Készülj az érettségire!</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
 </head>
 
 <body>
@@ -23,8 +25,8 @@
 
     <div id="irodalom-subnav" class="sub-nav">
         <button class="sub-nav-btn active" onclick="openSubCategory('irodalom-tablazat', 'irodalom')">Művek</button>
-        <button class="sub-nav-btn" onclick="openSubCategory('irodalom-munemek', 'irodalom')">Műnemek és
-            Műfajok</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('irodalom-munemek', 'irodalom')">Műnemek</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('irodalom-mufajok', 'irodalom')">Műfajok</button>
         <button class="sub-nav-btn" onclick="openSubCategory('irodalom-korszakok', 'irodalom')">Korszakok</button>
     </div>
 
@@ -57,6 +59,11 @@
             <h2>🎭 Az Irodalmi Műnemek és Műfajok</h2>
             <div class="info-box">Az alábbi adatokat a rendszer az "irodalom-munemek.csv" fájlból olvassa be.</div>
             <div id="irodalom-munemek-table-container"></div>
+        </div>
+
+        <div id="irodalom-mufajok" class="content-section">
+            <h2>🎭 Irodalmi Műfajok</h2>
+            <div id="irodalom-mufajok-table-container"></div>
         </div>
 
         <div id="irodalom-korszakok" class="content-section">

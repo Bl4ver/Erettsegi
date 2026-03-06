@@ -4,7 +4,9 @@
 const fileMapping = {
     'irodalom-tablazat': 'adatok/irodalom-tablazat.xlsx',
     'irodalom-munemek': 'adatok/irodalom-munemek.csv',
-    'tori-tablazat': 'adatok/tori-tablazat.xlsx'
+    'irodalom-mufajok': 'adatok/irodalom-mufajok.csv',
+    'tori-tablazat': 'adatok/tori-tablazat.xlsx',
+    'irodalom-korszakok': 'adatok/irodalom-korszakok.csv'
 };
 
 const db = {};
@@ -350,59 +352,88 @@ function initSearchBar(subId, headers, tableContainer) {
 function renderTable(data, subId) {
     const container = document.getElementById(`${subId}-table-container`);
     if (!container) return;
+
     if (!data || data.length === 0) {
         container.innerHTML = '<p style="text-align:center; padding: 20px;">Nincs találat. 🕵️‍♂️</p>';
         return;
     }
 
-    updateSyncDisplay(); // Frissítjük a kódot a sávban
+    updateSyncDisplay();
     const headers = db[subId].headers;
 
     let tableHTML = '<div class="table-responsive"><table><thead><tr>';
-    tableHTML += '<th style="width: 100px; text-align: center;">Állapot</th>'; // Fix szélesség
+    tableHTML += '<th style="width: 100px; text-align: center;">Állapot</th>';
     headers.forEach(header => { tableHTML += `<th>${header}</th>`; });
     tableHTML += '</tr></thead><tbody>';
 
     data.forEach((row, index) => {
-        // Egyedi azonosító a sornak (subId + az első oszlop tartalma)
-        const rowId = normalize(subId + row[headers[0]]);
-        const status = userStatus[rowId] || { fontos: false, kesz: false };
+        // --- ALCÍM / KATEGÓRIA KERESÉSE ---
+        const firstColValue = String(row[headers[0]] || "").trim();
+        const isCategory = headers.slice(1).every(h => {
+            const val = String(row[h] || "").trim();
+            return val === "" || val === "-";
+        });
 
-        // Ha kész, elhalványítjuk a sort
-        const rowStyle = status.kesz ? 'style="opacity: 0.5; background: #f8f9fa;"' : '';
+        if (firstColValue !== "" && isCategory) {
+            tableHTML += `
+                <tr class="category-row">
+                    <td colspan="${headers.length + 1}">${firstColValue}</td>
+                </tr>`;
+            return;
+        }
+
+        // --- NORMÁL ADATSOR GENERÁLÁSA ---
+        const rowId = normalize(subId + firstColValue);
+        const status = userStatus[rowId] || { fontos: false, kesz: false };
+        const rowStyle = status.kesz ? 'style="opacity: 0.5; background: rgba(0,0,0,0.02);"' : '';
 
         tableHTML += `<tr ${rowStyle}>`;
 
-        // GOMBOK CELLÁJA
+        // Állapot cella
         tableHTML += `
-            <td class="status-cell">
+            <td class="status-cell" data-label="Állapot">
                 <span onclick="toggleStatus('${rowId}', 'fontos')" class="star ${status.fontos ? 'active' : ''}">★</span>
                 <span onclick="toggleStatus('${rowId}', 'kesz')" class="check ${status.kesz ? 'active' : ''}">✔</span>
             </td>`;
 
+        // Adatcellák ciklus
         headers.forEach(header => {
             let rawValue = row[header];
+            let contentHTML = "";
+            let tdClass = "";
+            let lowerHeader = header.toLowerCase();
+
             if (rawValue === undefined || rawValue === null || String(rawValue).trim() === '' || rawValue === '-') {
-                tableHTML += `<td style="text-align: center; color: #bdc3c7;">&mdash;</td>`;
+                contentHTML = `<span style="color: #bdc3c7;">&mdash;</span>`;
             } else {
                 let cellValue = String(rawValue);
-                let contentHTML = cellValue;
-                let tdClass = '';
-                let lowerHeader = header.toLowerCase();
+                contentHTML = cellValue; 
 
-                if (lowerHeader.includes('kor') || lowerHeader.includes('kategória')) {
+                // --- SPECIÁLIS FORMÁZÁSOK SORRENDJE ---
+
+                // 1. KORSZAK -> Kék buborék
+                if (lowerHeader.includes('korszak')) {
                     contentHTML = `<span class="bubble-kor">${cellValue}</span>`;
-                } else if (['alkotó', 'évszám', 'fogalom', 'műnem'].includes(lowerHeader)) {
-                    contentHTML = `<span class="text-anchor">${cellValue}</span>`;
-                } else if (lowerHeader === 'műfajok' || lowerHeader === 'műfaj') {
+                } 
+                // 2. MŰFAJ -> Zöld tag (mindig zöld marad, akkor is ha nincs benne pontosvessző)
+                else if (lowerHeader.includes('műfaj')) {
                     contentHTML = cellValue.split(';').map(tag => `<span class="tag-mufaj">${tag.trim()}</span>`).join(' ');
-                } else if (cellValue.length > 40) {
+                }
+                // 3. ERŐS KIEMELÉS -> Csak Alkotó, Műnem, Fogalom (vagy a táblázat első oszlopa)
+                else if (['alkotó', 'fogalom', 'műnem'].includes(lowerHeader) || header === headers[0]) {
+                    contentHTML = `<span class="text-anchor">${cellValue}</span>`;
+                }
+                // 4. HOSSZÚ SZÖVEGEK (Rövid tartalom, elemzés, fogalom leírása)
+                else if (cellValue.length > 40 || lowerHeader.includes('tartalom') || lowerHeader.includes('elemzés')) {
                     tdClass = 'class="long-text"';
                     contentHTML = cellValue.replace(/\n/g, '<br>');
                 }
-                tableHTML += `<td ${tdClass} data-label="${header}">${contentHTML}</td>`;
+                // 5. TÍPUS/PÉLDA ÉS EGYEBEK -> Itt nem rakunk rá 'text-anchor'-t, így sima marad
             }
+
+            tableHTML += `<td ${tdClass} data-label="${header}">${contentHTML}</td>`;
         });
+
         tableHTML += '</tr>';
     });
 
@@ -425,7 +456,7 @@ if (currentTheme === 'dark') {
 function toggleTheme() {
     const body = document.body;
     const themeBtn = document.getElementById('theme-btn');
-    
+
     if (body.getAttribute('data-theme') === 'dark') {
         body.removeAttribute('data-theme');
         themeBtn.innerText = '🌙';
@@ -443,12 +474,12 @@ function toggleTheme() {
 document.addEventListener('click', function (e) {
     // Megkeressük a legközelebbi táblázat sort (tr), amire kattintottak
     const row = e.target.closest('tbody tr');
-    
+
     // Csak akkor fut le, ha mobilon vagyunk (768px alatt) és valódi sorra kattintottak
     if (window.innerWidth <= 768 && row) {
         // Ha nem gombra (csillag/pipa) kattintottak, akkor nyitjuk/csukjuk a kártyát
         if (!e.target.classList.contains('star') && !e.target.classList.contains('check')) {
-            
+
             // Opcionális: a többi nyitott sort becsukja (harmonika effektus)
             const currentlyExpanded = row.parentElement.querySelector('.expanded');
             if (currentlyExpanded && currentlyExpanded !== row) {
