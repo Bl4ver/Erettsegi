@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Készülj érettségire!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+
+<body>
+
+    <nav class="main-nav">
+        <button class="nav-btn" onclick="openSubject('tori')">🏰 Történelem</button>
+        <button class="nav-btn active" onclick="openSubject('irodalom')" id="default-subject">📚 Irodalom</button>
+        <button class="nav-btn" onclick="openSubject('matek')">📐 Matematika</button>
+        <button class="nav-btn" onclick="openSubject('nyelvtan')">✍️ Nyelvtan</button>
+
+        <button class="nav-btn theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙</button>
+    </nav>
+
+    <div id="irodalom-subnav" class="sub-nav">
+        <button class="sub-nav-btn active" onclick="openSubCategory('irodalom-tablazat', 'irodalom')">Művek</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('irodalom-munemek', 'irodalom')">Műnemek és
+            Műfajok</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('irodalom-korszakok', 'irodalom')">Korszakok</button>
+    </div>
+
+    <div id="tori-subnav" class="sub-nav" style="display: none;">
+        <button class="sub-nav-btn active" onclick="openSubCategory('tori-tablazat', 'tori')">Események
+            Táblázata</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('tori-korszakok', 'tori')">Történelmi Korok</button>
+    </div>
+
+    <div class="container">
+
+        <div class="sync-bar">
+            <div class="sync-info">
+                <span>🔄 Tanulási állapot:</span>
+                <input type="text" id="sync-code-input" readonly placeholder="Itt jelenik meg a kódod...">
+                <button onclick="copySyncCode()" class="btn-sync">Kód másolása</button>
+            </div>
+            <div class="sync-actions">
+                <input type="text" id="import-code-input" placeholder="Kód beillesztése...">
+                <button onclick="importSyncCode()" class="btn-import">Betöltés</button>
+            </div>
+        </div>
+
+        <div id="irodalom-tablazat" class="content-section active">
+            <h2>📖 Irodalmi Művek Adatbázisa</h2>
+            <div id="irodalom-tablazat-table-container"></div>
+        </div>
+
+        <div id="irodalom-munemek" class="content-section">
+            <h2>🎭 Az Irodalmi Műnemek és Műfajok</h2>
+            <div class="info-box">Az alábbi adatokat a rendszer az "irodalom-munemek.csv" fájlból olvassa be.</div>
+            <div id="irodalom-munemek-table-container"></div>
+        </div>
+
+        <div id="irodalom-korszakok" class="content-section">
+            <h2>🏛️ Irodalmi Korszakok</h2>
+            <div id="irodalom-korszakok-table-container">
+                <p>Ide is készíthetsz majd egy Excel fájlt (pl. irodalom-korszakok.xlsx), és amint beírod a
+                    script.js-be, meg fog itt jelenni!</p>
+            </div>
+        </div>
+
+
+        <div id="tori-tablazat" class="content-section">
+            <h2>🏰 Történelmi Események</h2>
+            <div id="tori-tablazat-table-container"></div>
+        </div>
+
+        <div id="tori-korszakok" class="content-section">
+            <h2>⏳ Történelmi Korok</h2>
+            <div id="tori-korszakok-table-container">
+                <p>Őskor, Ókor, Középkor, Újkor, Jelenkor... Ide is jöhet majd egy táblázat!</p>
+            </div>
+        </div>
+
+
+        <div id="matek-main" class="content-section">
+            <h2>📐 Matematika</h2>
+            <p>Képletek és tételek helye...</p>
+        </div>
+
+        <div id="nyelvtan-main" class="content-section">
+            <h2>✍️ Nyelvtan</h2>
+            <p>Nyelvtani szabályok...</p>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
