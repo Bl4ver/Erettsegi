@@ -323,7 +323,11 @@ function initSearchBar(subId, headers, targetElement) {
         const showDone = doneCheck.checked;
 
         const filteredData = db[subId].data.filter(row => {
-            const rowId = normalize(subId + row[db[subId].headers[0]]);
+            // JAVÍTÁS: Egyedi azonosító oszlopok összevonásával a szűrőben is
+            const firstColValue = String(row[db[subId].headers[0]] || "").trim();
+            const secondColValue = db[subId].headers.length > 1 ? String(row[db[subId].headers[1]] || "").trim() : "";
+            const rowId = normalize(subId + firstColValue + secondColValue);
+            
             const status = userStatus[rowId] || { fontos: false, kesz: false };
 
             if (onlyFav && !status.fontos) return false;
@@ -367,7 +371,7 @@ function renderTable(data, subId, targetElement) {
     headers.forEach(header => { tableHTML += `<th>${header}</th>`; });
     tableHTML += '</tr></thead><tbody>';
 
-    let currentCatId = 0; // ÚJ: Ezzel számozzuk a kategóriákat
+    let currentCatId = 0; // Ezzel számozzuk a kategóriákat
 
     data.forEach(row => {
         const firstColValue = String(row[headers[0]] || "").trim();
@@ -388,12 +392,14 @@ function renderTable(data, subId, targetElement) {
             return;
         }
 
-        // Normál adatsor
-        const rowId = normalize(subId + firstColValue);
+        // JAVÍTÁS: Egyedi azonosító generálása az első ÉS második oszlop alapján (pl. Alkotó + Mű)
+        const secondColValue = headers.length > 1 ? String(row[headers[1]] || "").trim() : "";
+        const rowId = normalize(subId + firstColValue + secondColValue);
+        
         const status = userStatus[rowId] || { fontos: false, kesz: false };
         const rowStyle = status.kesz ? 'opacity: 0.5; background: rgba(0,0,0,0.02);' : '';
         
-        // ÚJ: Hozzáadjuk a sorhoz, hogy melyik kategóriába (alcím alá) tartozik
+        // Hozzáadjuk a sorhoz, hogy melyik kategóriába (alcím alá) tartozik
         const catClass = currentCatId > 0 ? `${subId}-cat-${currentCatId}` : '';
 
         tableHTML += `<tr class="data-row ${catClass}" style="${rowStyle}">`;
@@ -437,7 +443,14 @@ function renderTable(data, subId, targetElement) {
     });
 
     tableHTML += '</tbody></table></div>';
-    container.innerHTML = tableHTML;
+    
+    // Ha keresünk, csak a táblázat részt cseréljük le, ne az egész konténert
+    const existingTable = container.querySelector('.table-responsive');
+    if (existingTable) {
+        existingTable.outerHTML = tableHTML;
+    } else {
+        container.innerHTML += tableHTML;
+    }
 }
 
 // ==========================================

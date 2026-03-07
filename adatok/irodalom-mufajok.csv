@@ -8,6 +8,11 @@ Monda;Valóságos történelmi alapokkal rendelkező, de képzeletbeli, csodás 
 Mítosz;A világ keletkezéséről, isteneiről és félisteneiről szóló történet, amely egy kultúra alapvető kérdéseire keresi a választ.;Mitológia (pl. Trójai mondakör)
 Anektoda;Rövid, csattanós, többnyire közismert személyekhez kapcsolódó, vidám történet, amely jellemzően szóbeli hagyományon alapul.;Kisepika (pl. Mikszáth Kálmán művei)
 Elbeszélés;A novella és a kisregény közötti átmeneti műfaj, amely a novellánál részletezőbb, de a regénynél szűkebb cselekményű.;Kisepika (pl. Tóték)
+Legenda;Vallási tárgyú, általában egy szent életét, csodatételeit és erényeit bemutató kisepikai műfaj.;Kisepika (pl. Margit-legenda)
+Napló és Memoár (Emlékirat);Személyes, valós eseményeken alapuló időrendi feljegyzés vagy visszatekintés, amely történelmi és irodalmi értékkel is bír.;Tényirodalom/Epika (pl. Márai Sándor naplói)
+Krónika;Történelmi eseményeket időrendben megörökítő, gyakran fikciós vagy mondai elemeket is tartalmazó középkori epikai műfaj.;Történeti epika (pl. Képes Krónika)
+Utópia és Disztópia;Egy elképzelt, ideális társadalmat (utópia) vagy egy elnyomó, sötét jövőképet (disztópia) bemutató regénytípus.;Nagyepika (pl. Orwell: 1984)
+Evangélium;Jézus Krisztus életét, tanításait, halálát és feltámadását bemutató, a hit ébresztésére szolgáló ókeresztény műfaj.;Ókori epika (pl. Márk evangéliuma)
 
 Lírai műfajok
 Dal;Egyszerű érzelmet kifejező, rövid, ritmikus, könnyen énekelhető lírai műfaj, amely gyakran ismétlődő versszakokból épül fel.;Líra (pl. Petőfi Sándor dalai)
@@ -17,19 +22,27 @@ Elégia;Bánatos, mélabús hangvételű költemény, amelyben az elmúlás, a v
 Epigramma;Rövid, tömör, eredetileg sírfeliratként szolgáló műfaj, amely egyetlen gondolatot fejez ki, gyakran csattanóval a végén.;Líra (pl. Huszt)
 Szonett;Szigorúan kötött, 14 sorból álló versforma (4+4+3+3), amely a reneszánsz óta a legnépszerűbb lírai formák egyike.;Líra (pl. Dante, Petrarca művei)
 Rapszódia;Csapongó, szenvedélyes, változó ritmusú és érzelmi töltésű lírai műfaj, amely a lelkiállapot hirtelen változásait tükrözi.;Líra (pl. Egy gondolat bánt engemet)
+Ekloga;Pásztori költemény, amely gyakran párbeszédes formában a békét és a természet iránti vágyódást állítja szembe a kor zűrzavarával.;Líra (pl. Radnóti Miklós: Hetedik ecloga)
+Zsoltár;Eredetileg ókori zsidó vallásos ének, amely Istent dicsőíti, kérlel, vagy az emberi esendőséget, panaszt fejezi ki.;Vallásos líra (pl. 23. zsoltár)
+Ars poetica (Költői hitvallás);Olyan vers, amelyben a szerző a saját költészetéről, a művészet céljáról, eszközeiről és feladatairól gondolkodik.;Gondolati líra (pl. József Attila: Ars poetica)
+Epistola (Költői levél);Megszólító jellegű, távol lévő, valós vagy fiktív személyhez írt verses levél, amely személyes és közéleti témákat is érint.;Líra (pl. Petőfi Sándor: Arany Jánoshoz)
 
 Drámai műfajok
 Tragédia;Olyan drámai műfaj, amelyben a pozitív hős és az általa képviselt értékrend bukása elkerülhetetlen, ami a nézőben katarzist vált ki.;Dráma (pl. Antigoné)
 Komédia;Olyan drámai műfaj, amely nevetséges jellemeket vagy helyzeteket mutat be, célja a szórakoztatás és a hibák kifigurázása.;Dráma (pl. Tartuffe)
 Drámai költemény;Az emberi lét alapvető kérdéseit feszegető, lírai elemekkel átszőtt, gondolati jellegű drámai mű, amely gyakran olvasásra is készül.;Dráma (pl. Az ember tragédiája)
 Színmű;A tragédia és a komédia elemeit ötvöző drámai műfaj, amely hétköznapi problémákat és konfliktusokat dolgoz fel.;Dráma (pl. Csongor és Tünde)
+Abszurd dráma;A 20. században kialakult drámatípus, amely a cselekmény és a nyelv szétesésével az emberi lét értelmetlenségét és kilátástalanságát mutatja be.;Dráma (pl. Samuel Beckett: Godot-ra várva)
+Misztériumjáték és Moralitás;Középkori vallásos színpadi műfajok, amelyek bibliai történeteket (misztérium) vagy az erények és bűnök allegorikus küzdelmét (moralitás) vitték színre.;Dráma (pl. Akárki)
 
-Átmeneti és határműfajok
+Átmeneti és határműfajok / Esszéistika
 Ballada;Sűrített cselekményű, tragikus végkifejletű műfaj, amelyet gyakran „tragédia dalban elbeszélve” néven említenek. Homályos, szaggatott előadásmód jellemzi.;Epika (történet), Líra (verses forma, érzelmek), Dráma (párbeszédek, konfliktus)
 Életkép;A mindennapi élet egy-egy jellemző helyzetét, alakját vagy típusát bemutató rövid mű. Gyakran statikus, egy pillanatot örökít meg.;Epika (szituáció bemutatása) és Líra (hangulati elemek)
 Verses regény;Olyan nagyepikai mű, amely megtartja a regény cselekményét és karaktereit, de verses formában íródik, és a narrátor lírai reflexiói átszövik a szöveget.;Epika (cselekmény) és Líra (formanyelv, szubjektivitás)
 Idill;A boldog, harmonikus életállapotot vagy a természet közelségét bemutató, többnyire békés hangvételű műfaj.;Líra (érzelmek) és Epika (leíró jelleg)
 Példázat (Parabola);Rövid, tanító szándékú történet, amely egy erkölcsi, vallási vagy filozófiai igazságot világít meg egy párhuzamos történeten keresztül.;Epika (történet) és Líra/Dráma (eszmei mondanivaló)
+Esszé;Tudományos, irodalmi vagy filozófiai témát irodalmi igényességgel, személyes, szubjektív hangvételben feldolgozó értekezés.;Átmeneti műfaj (pl. Babits Mihály esszéi)
+Prózai levél;Megszólító jellegű, prózában írt mű, amely egyszerre lehet magánéleti dokumentum és magas irodalmi értékű alkotás.;Epika/Tényirodalom (pl. Mikes Kelemen: Törökországi levelek)
 
 Néhány fontosabb altípus és műfajcsoport
 Gúny/Szatíra;A valóság visszásságait éles kritikai éllel, nevetségessé tétellel bemutató látásmód vagy műfaj.;Epika vagy Líra (pl. Swift: Gulliver utazásai)
