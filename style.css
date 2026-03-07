@@ -10,9 +10,12 @@
     --warning-color: #f1c40f;
     --border-color: #dfe6e9;
     --table-row-hover: #f1f2f6;
+    --table-shadow: rgba(0, 0, 0, 0.04);
 }
 
-/* Sötét téma */
+/* =========================================
+   SÖTÉT TÉMA
+   ========================================= */
 [data-theme="dark"] {
     --bg-color: #121212;
     --card-bg: #1e1e1e;
@@ -22,13 +25,17 @@
     --secondary-color: #2d3436;
     --border-color: #333333;
     --table-row-hover: #2c2c2c;
+    --table-shadow: rgba(0, 0, 0, 0.4);
+    --accent-color: #2980b9;
 }
 
-/* H2 javítása sötét módban */
 [data-theme="dark"] h2 {
     color: var(--text-color);
 }
 
+/* =========================================
+   ALAPBEÁLLÍTÁSOK
+   ========================================= */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -40,43 +47,16 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
+    line-height: 1.6;
 }
 
-/* --- Wrapping javítások a navigációhoz --- */
-.main-nav,
-.sub-nav,
-.search-row,
-.filter-row {
-    display: flex;
-    flex-wrap: wrap;
-    /* Engedélyezi a tördelést, ha nem fér el */
-    gap: 10px;
-}
-
-/* Csak a háttereket állítjuk be a kártyákhoz, a color-t örökli a body-tól */
-.sub-nav,
-.search-container,
-.info-box,
-tbody tr {
-    background-color: var(--card-bg);
-}
-
-th,
-.filter-label {
-    color: var(--text-muted);
-}
-
-.search-row input,
-.search-row select {
-    background: var(--card-bg);
+h2 {
     color: var(--text-color);
-    border-color: var(--border-color);
-}
-
-.theme-toggle {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    margin-left: auto;
+    font-size: 2em;
+    margin-bottom: 25px;
+    border-bottom: 3px solid var(--accent-color);
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
 /* =========================================
@@ -116,7 +96,14 @@ th,
     box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
 }
 
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    margin-left: auto;
+}
+
 .sub-nav {
+    background-color: var(--card-bg);
     padding: 12px 20px;
     display: flex;
     gap: 10px;
@@ -126,8 +113,8 @@ th,
 }
 
 .sub-nav button {
-    background: #fdfdfd;
-    border: 1px solid #dfe6e9;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
     color: var(--text-muted);
     font-size: 15px;
     font-weight: 600;
@@ -138,8 +125,8 @@ th,
 }
 
 .sub-nav button:hover {
-    background-color: #f1f2f6;
-    color: var(--primary-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 .sub-nav button.active {
@@ -149,7 +136,7 @@ th,
 }
 
 /* =========================================
-   SZINKRONIZÁCIÓS SÁV (Base64)
+   SZINKRONIZÁCIÓS SÁV & KERESŐ
    ========================================= */
 .sync-bar {
     background: #2d3436;
@@ -170,6 +157,7 @@ th,
     display: flex;
     gap: 10px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .sync-bar input {
@@ -219,18 +207,16 @@ th,
     filter: brightness(1.1);
 }
 
-/* =========================================
-   KERESŐ ÉS SZŰRŐK
-   ========================================= */
 .search-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-bottom: 30px;
     padding: 20px;
+    background: var(--card-bg);
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
-    border: 1px solid #eee;
+    box-shadow: 0 4px 6px var(--table-shadow);
+    border: 1px solid var(--border-color);
 }
 
 .search-row {
@@ -239,20 +225,22 @@ th,
     flex-wrap: wrap;
 }
 
-.search-row select {
+.search-row select,
+.search-row input {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
     padding: 12px;
-    border: 2px solid #dfe6e9;
     border-radius: 8px;
     font-size: 15px;
+}
+
+.search-row select {
     flex: 1;
     min-width: 150px;
 }
 
 .search-row input {
-    padding: 12px;
-    border: 2px solid #dfe6e9;
-    border-radius: 8px;
-    font-size: 15px;
     flex: 3;
     min-width: 250px;
 }
@@ -266,34 +254,32 @@ th,
 .filter-row {
     display: flex;
     gap: 25px;
-    padding: 5px 10px;
-    background: #f9f9fb;
+    flex-wrap: wrap;
+    padding: 10px;
+    background: var(--bg-color);
     border-radius: 8px;
 }
 
 .filter-label {
-   display: flex;
+    display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
-    
-    /* --- JAVÍTÁS: Nincs többé kék kijelölés --- */
-    user-select: none;         /* Modern böngészők */
-    -webkit-user-select: none;  /* Safari / Chrome */
-    -moz-user-select: none;     /* Firefox */
-    -ms-user-select: none;      /* Régi IE/Edge */
+    color: var(--text-muted);
+    user-select: none;
 }
 
 .filter-label input[type="checkbox"] {
     width: 18px;
     height: 18px;
     accent-color: var(--accent-color);
+    cursor: pointer;
 }
 
 /* =========================================
-   TÁBLÁZAT ÉS KÁRTYA DIZÁJN
+   TÁBLÁZAT ALAPOK (ASZTALI NÉZET)
    ========================================= */
 .container {
     max-width: 1400px;
@@ -322,15 +308,6 @@ th,
     }
 }
 
-h2 {
-    color: var(--text-color);
-    font-size: 2em;
-    margin-bottom: 25px;
-    border-bottom: 3px solid var(--accent-color);
-    display: inline-block;
-    padding-bottom: 5px;
-}
-
 .table-responsive {
     overflow-x: auto;
     padding-bottom: 20px;
@@ -348,16 +325,18 @@ th {
     letter-spacing: 1px;
     padding: 10px 20px;
     text-align: left;
-    border-bottom: 2px solid #dfe6e9;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-muted);
 }
 
-tbody tr {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+tbody tr:not(.category-row) {
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 8px var(--table-shadow);
     border-radius: 12px;
     transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-tbody tr:hover {
+tbody tr:not(.category-row):hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
     z-index: 10;
@@ -365,37 +344,34 @@ tbody tr:hover {
 }
 
 td {
-    padding: 1cqmin;
+    padding: 15px 20px;
     border: none;
-    vertical-align: middle;    /* Jobban néz ki, ha a szöveg középre kerül */
-    
-    /* --- JAVÍTÁS --- */
-    overflow-wrap: break-word; /* Kényszerített tördelés */
+    vertical-align: middle;
+    overflow-wrap: break-word;
     word-wrap: break-word;
 }
 
-td:first-child {
+tbody tr:not(.category-row) td:first-child {
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
     border-left: 4px solid transparent;
     transition: 0.3s;
 }
 
-tbody tr:hover td:first-child {
+tbody tr:not(.category-row):hover td:first-child {
     border-left: 4px solid var(--accent-color);
 }
 
-td:last-child {
+tbody tr:not(.category-row) td:last-child {
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
 }
 
 /* =========================================
-   ÁLLAPOT GOMBOK ÉS VIZUÁLIS ELEMEK
+   SPECIÁLIS CELLÁK (GOMBOK, TAG-EK)
    ========================================= */
 .status-cell {
     text-align: center;
-    vertical-align: middle;
     white-space: nowrap;
     width: 100px;
 }
@@ -404,10 +380,11 @@ td:last-child {
 .check {
     font-size: 22px;
     cursor: pointer;
-    color: #dfe6e9;
+    color: var(--border-color);
     transition: 0.2s;
     margin: 0 4px;
     display: inline-block;
+    user-select: none;
 }
 
 .star:hover {
@@ -430,7 +407,6 @@ td:last-child {
     font-weight: bold;
 }
 
-/* Különleges mezők formázása */
 .text-anchor {
     font-weight: 800;
     font-size: 1.1em;
@@ -450,19 +426,16 @@ td:last-child {
     box-shadow: 0 3px 6px rgba(9, 132, 227, 0.2);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    
-    /* --- JAVÍTÁS A TÖRDELÉSHEZ --- */
-    white-space: normal;       /* Engedélyezzük a sorváltást */
-    word-break: break-word;    /* Ha egy nagyon hosszú szó van, ott is törje meg */
-    line-height: 1.3;          /* Hogy a többsoros szöveg ne érjen össze */
-    max-width: 100%;           /* Ne lehessen szélesebb a szülő cellájánál */
-    text-align: center;        /* Középre zárt szöveg a buborékon belül */
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.3;
+    text-align: center;
 }
 
 .tag-mufaj {
-    background-color: #f0f8f5;
+    background-color: rgba(0, 184, 148, 0.1);
     color: #00b894;
-    border: 1px solid #55efc4;
+    border: 1px solid rgba(85, 239, 196, 0.5);
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 0.85em;
@@ -473,9 +446,13 @@ td:last-child {
     white-space: nowrap;
 }
 
+[data-theme="dark"] .tag-mufaj {
+    color: #55efc4;
+}
+
 .long-text {
     line-height: 1.7;
-    color: #4b6584;
+    color: var(--text-muted);
     min-width: 200px;
     max-width: 450px;
     word-break: break-word;
@@ -484,53 +461,165 @@ td:last-child {
 }
 
 /* =========================================
-   EGYÉB RENDEREK
+   MARKDOWN SZÖVEG (.text-content)
    ========================================= */
-.info-box {
-    border-left: 5px solid var(--accent-color);
-    padding: 20px;
-    margin-bottom: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
-}
-
-.error-text {
-    text-align: center;
-    color: white;
-    background: #ff7675;
-    padding: 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    margin: 20px;
-}
-
-.loading-text {
-    text-align: center;
+.text-content {
+    background: var(--card-bg);
     padding: 40px;
-    font-size: 1.2em;
-    font-weight: 600;
-    animation: pulse 1.5s infinite;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--table-shadow);
+    color: var(--text-color);
+    line-height: 1.8;
 }
 
-@keyframes pulse {
-    0% {
-        opacity: 0.6;
-    }
+.text-content h1 {
+    color: var(--accent-color);
+    border-bottom: 3px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-top: 0;
+}
 
-    50% {
-        opacity: 1;
-    }
+.text-content h2 {
+    color: var(--primary-color);
+    margin-top: 30px;
+}
 
-    100% {
-        opacity: 0.6;
-    }
+.text-content strong {
+    color: var(--primary-color);
+    font-weight: 800;
+}
+
+.text-content ul {
+    padding-left: 20px;
+}
+
+.text-content li {
+    margin-bottom: 10px;
+}
+
+[data-theme="dark"] .text-content strong {
+    color: var(--accent-color);
+}
+
+.text-content table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin: 20px 0;
+}
+
+.text-content tr {
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 8px var(--table-shadow);
+}
+
+.text-content td,
+.text-content th {
+    padding: 15px;
+    border: none;
+}
+
+.text-content th {
+    text-transform: uppercase;
+    font-size: 0.85em;
+    color: var(--text-muted);
+    text-align: left;
 }
 
 /* =========================================
-   MOBIL ÉS TABLET OPTIMALIZÁLÁS
+   MARK: KATEGÓRIA LENYITÓ STÍLUSOK (JAVÍTOTT)
    ========================================= */
-@media (max-width: 800px) {
-    .sync-bar {
+
+/* Maga a sor stílusa */
+.category-row {
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+    background-color: transparent !important;
+    /* A hátteret a td-nek adjuk */
+    box-shadow: none !important;
+    /* Levesszük az alap árnyékot */
+}
+
+/* A cella, ami kitölti a sort (JAVÍTVA A COLSPAN MIATT) */
+.category-row td {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    padding: 16px 25px !important;
+    font-size: 1.1em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 12px !important;
+    /* Gomb-szerű lekerekítés */
+    box-shadow: 0 4px 10px rgba(44, 62, 80, 0.2);
+
+    /* Ezek a sorok oldják meg, hogy végigérjen a képernyőn: */
+    display: table-cell !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+    width: 100%;
+}
+
+/* Éjszakai mód finomítása */
+body[data-theme="dark"] .category-row td {
+    background-color: var(--accent-color) !important;
+}
+
+/* Hover effektus (ha ráviszed az egeret) */
+.category-row:hover td {
+    filter: brightness(1.15);
+    /* Az asztali nézetben a translateY olykor ugrálást okoz táblázatban, 
+       ezért itt csak a színnel/árnyékkal játszunk */
+    box-shadow: 0 6px 15px rgba(44, 62, 80, 0.3);
+}
+
+/* =========================================
+   A LENYITÓ IKON ÉS ÁLLAPOTOK
+   ========================================= */
+.cat-icon {
+    display: inline-flex;
+    /* Hogy a szöveg mellett maradjon, ne új sorban */
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    /* Igazítás a szöveghez */
+    margin-right: 15px;
+    vertical-align: middle;
+    margin-top: -3px;
+    /* Optikai finomhangolás, hogy pontosan középen legyen */
+}
+
+/* Ha össze van csukva, szürkébb lesz, és elfordul a nyíl */
+.category-row.collapsed td {
+    background-color: var(--text-muted) !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body[data-theme="dark"] .category-row.collapsed td {
+    background-color: #3a3a3b !important;
+}
+
+.category-row.collapsed .cat-icon {
+    transform: rotate(-90deg);
+    /* Nyíl jobbra mutat */
+}
+
+/* =========================================
+   MARK: RESPONSIVE: MOBIL KÁRTYA NÉZET (Max 768px)
+   ========================================= */
+@media (max-width: 768px) {
+
+    /* Szinkron és Kereső */
+    .sync-bar,
+    .search-row,
+    .filter-row {
         flex-direction: column;
         align-items: stretch;
     }
@@ -542,87 +631,17 @@ td:last-child {
     }
 
     #sync-code-input,
-    #import-code-input {
-        width: 100%;
-    }
-
-    .search-row {
-        flex-direction: column;
-    }
-
+    #import-code-input,
     .search-row select,
     .search-row input {
         width: 100%;
     }
 
-    .filter-row {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-
-@media (max-width: 600px) {
     .container {
         padding: 0 10px;
     }
 
-    td {
-        padding: 15px 10px;
-        font-size: 14px;
-    }
-
-    .status-cell {
-        width: 70px;
-    }
-
-    .star,
-    .check {
-        font-size: 18px;
-    }
-}
-
-/* MARK: ALCÍM SOROK STÍLUSA 
-*/
-.category-row {
-    background-color: var(--primary-color) !important; /* Sötét háttér */
-    color: white !important;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-align: center;
-}
-
-.category-row td {
-    padding: 12px !important;
-    font-size: 1.1em;
-    border-radius: 8px; /* Hogy illeszkedjen a kártyás stílushoz */
-}
-
-/* Sötét módban is maradjon jól látható */
-body[data-theme="dark"] .tag-mufaj {
-    background-color: rgba(0, 184, 148, 0.1);
-    color: #55efc4;
-    border-color: rgba(85, 239, 196, 0.3);
-}
-
-/* Mobilon ne legyen "data-label" az alcímek előtt */
-@media (max-width: 800px) {
-    .category-row td::before {
-        display: none !important;
-    }
-    .category-row td {
-        padding-left: 20px !important;
-        text-align: center !important;
-    }
-}
-
-/* =========================================
-   MOBIL ÉS TABLET OPTIMALIZÁLÁS (Kártya nézet)
-   MARK: - 768px
-   ========================================= */
-@media (max-width: 768px) {
-
-    /* Táblázat elemeinek blokká alakítása */
+    /* Táblázat szétszedése */
     table,
     thead,
     tbody,
@@ -633,12 +652,33 @@ body[data-theme="dark"] .tag-mufaj {
         width: 100%;
     }
 
-    /* Fejléc elrejtése mobilon (mert a kártyákon belül ott lesz a label) */
     thead {
         display: none;
     }
 
-    tbody tr {
+    /* Fejléc elrejtése */
+
+    /* KATEGÓRIA SOR VÉDELME (Itt volt a hiba a képeken!) */
+    tbody tr.category-row {
+        margin-top: 30px !important;
+        margin-bottom: 15px !important;
+        border: none;
+        padding: 0;
+    }
+
+    tbody tr.category-row td {
+        padding: 15px !important;
+        justify-content: flex-start !important;
+        min-height: auto;
+    }
+
+    tbody tr.category-row td::before {
+        content: none !important;
+        display: none !important;
+    }
+
+    /* NORMÁL ADATSOROK -> KÁRTYÁK */
+    tbody tr:not(.category-row) {
         margin-bottom: 15px;
         border: 1px solid var(--border-color);
         border-radius: 12px;
@@ -649,41 +689,46 @@ body[data-theme="dark"] .tag-mufaj {
         transition: 0.3s;
     }
 
-    /* Alapállapot: csak az első 3 TD látszik (Állapot + Író + Mű) */
-    tbody tr td {
+    /* Alapból elrejtjük a cellákat */
+    tbody tr:not(.category-row) td {
         display: none;
         padding: 10px 5px;
         border-bottom: 1px solid var(--border-color);
         text-align: left !important;
     }
 
-    /* Ezek mindig látszanak: Állapot gombok + első két adatmező */
-    tbody tr td:nth-child(1),
-    tbody tr td:nth-child(2),
-    tbody tr td:nth-child(3) {
+    /* Csak az első 3 marad nyitva */
+    tbody tr:not(.category-row) td:nth-child(1),
+    tbody tr:not(.category-row) td:nth-child(2),
+    tbody tr:not(.category-row) td:nth-child(3) {
         display: flex;
         align-items: center;
         border-bottom: none;
     }
 
-    /* Az állapotjelző gombok (csillag, pipa) mobilon a jobb felső sarokba kerülnek */
-    tbody tr td:nth-child(1) {
+    /* Állapot gombok a sarokba */
+    tbody tr:not(.category-row) td:nth-child(1) {
         position: absolute;
         top: 10px;
         right: 10px;
         border: none;
         width: auto;
+        display: block;
+        padding: 0;
     }
 
-    /* Lenyitott állapot (.expanded osztály) */
-    tbody tr.expanded td {
+    /* Lenyitott kártya állapota */
+    tbody tr:not(.category-row).expanded td {
         display: flex;
-        /* Minden mező megjelenik */
         flex-wrap: wrap;
     }
 
-    /* Mezõnevek megjelenítése (pl. Műfaj: Novella) */
-    tbody tr td::before {
+    tbody tr:not(.category-row).expanded td:last-child {
+        border-bottom: none;
+    }
+
+    /* Oszlopnevek generálása (data-label) */
+    tbody tr:not(.category-row) td::before {
         content: attr(data-label) ": ";
         font-weight: bold;
         text-transform: uppercase;
@@ -694,47 +739,38 @@ body[data-theme="dark"] .tag-mufaj {
         display: inline-block;
     }
 
-    /* Az első 3 mezőnél ne legyen label, hogy szép legyen a kártya feje */
-    tbody tr td:nth-child(1)::before,
-    tbody tr td:nth-child(2)::before,
-    tbody tr td:nth-child(3)::before {
+    /* Fejből a legelső oszlopneveket eltüntetjük */
+    tbody tr:not(.category-row) td:nth-child(1)::before,
+    tbody tr:not(.category-row) td:nth-child(2)::before,
+    tbody tr:not(.category-row) td:nth-child(3)::before {
         display: none;
     }
 
-    /* Nyíl ikon jelzése a kártyán */
-    tbody tr::after {
+    /* Kis nyíl jelzés a kártya alján */
+    tbody tr:not(.category-row)::after {
         content: '▼';
         position: absolute;
         bottom: 10px;
         right: 15px;
         font-size: 10px;
         opacity: 0.5;
+        color: var(--text-muted);
     }
 
-    tbody tr.expanded::after {
+    tbody tr:not(.category-row).expanded::after {
         content: '▲';
-    }
-
-    /* Szinkronizáló sáv és kereső igazítása */
-    .sync-bar,
-    .search-row,
-    .filter-row {
-        flex-direction: column;
-        align-items: stretch;
     }
 }
 
 /* =========================================
-TABLET ÉS LAPTOP OPTIMALIZÁLÁS
-   MARK:  (769px - 1440px)
+   RESPONSIVE: LAPTOP / TABLET (769px - 1440px)
    ========================================= */
 @media (min-width: 769px) and (max-width: 1440px) {
     .container {
-        max-width: 95%; /* Kitölti a helyet, de hagy margót */
+        max-width: 95%;
         padding: 0 15px;
     }
 
-    /* Kereső sáv: 2 oszlopos elrendezés, hogy ne legyen egyetlen hosszú sor */
     .search-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -742,49 +778,55 @@ TABLET ÉS LAPTOP OPTIMALIZÁLÁS
         padding: 25px;
     }
 
-    .search-row {
-        grid-column: span 2; /* A keresőmező marad teljes szélességű */
+    .search-row,
+    .filter-row {
+        grid-column: span 2;
     }
 
     .filter-row {
-        grid-column: span 2;
         justify-content: flex-start;
-        padding: 15px;
+        padding: 10px 0;
     }
 
-    /* Szinkron sáv: ne legyen túl magas, de ne is folyjon szét */
     .sync-bar {
         display: grid;
         grid-template-columns: 1.5fr 1fr;
         gap: 15px;
     }
 
-    /* Táblázat finomhangolása */
     table {
-        table-layout: fixed; /* Fix oszlopszélességeket kényszerítünk */
-        font-size: 14px; /* Kicsit kisebb betű, hogy több férjen ki */
+        table-layout: fixed;
+        font-size: 14px;
     }
 
-    th, td {
+    th,
+    td {
         padding: 12px 10px;
-        word-wrap: break-word; /* Ne lógjon ki a szöveg a cellából */
+        word-wrap: break-word;
     }
 
-    /* Oszlopok arányainak beállítása */
-    th:nth-child(1), td:nth-child(1) { width: 90px; }  /* Állapot */
-    th:nth-child(2), td:nth-child(2) { width: 18%; }  /* Szerző */
-    th:nth-child(3), td:nth-child(3) { width: 22%; }  /* Cím */
-    
-    /* A hosszú elemzés/leírás oszlop maradjon rugalmas */
+    th:nth-child(1),
+    td:nth-child(1) {
+        width: 90px;
+    }
+
+    /* Állapot */
+    th:nth-child(2),
+    td:nth-child(2) {
+        width: 18%;
+    }
+
+    /* Szerző/Kategória */
+    th:nth-child(3),
+    td:nth-child(3) {
+        width: 22%;
+    }
+
+    /* Cím/Alap */
+
     .long-text {
-        max-width: none; 
+        max-width: none;
         font-size: 13px;
         line-height: 1.5;
-    }
-
-    /* Navigáció gombjainak méretezése */
-    .main-nav button {
-        padding: 8px 15px;
-        font-size: 16px;
     }
 }
