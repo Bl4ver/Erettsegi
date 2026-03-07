@@ -4,12 +4,17 @@
 const fileMapping = {
     'irodalom-tablazat': ['adatok/irodalom-tablazat.xlsx'],
     'irodalom-munemek': ['adatok/irodalom-munemek.csv'],
+    'irodalom-korszakok': ['adatok/irodalom-korszakok.csv'],
     'irodalom-mufajok': [
         'adatok/irodalom-mufajok.csv',
         'adatok/irodalom-mufajok.md'
     ],
     'tori-tablazat': ['adatok/tori-tablazat.xlsx'],
-    'irodalom-korszakok': ['adatok/irodalom-korszakok.csv']
+    // Matematika bekötése (4 különálló alkategória)
+    'matek-fogalmak': ['adatok/matek/matek-fogalmak.csv'],
+    'matek-kepletek': ['adatok/matek/matek-kepletek.xlsx'],
+    'matek-feladatok': ['adatok/matek/matek-feladatok.md'],
+    'matek-strategia': ['adatok/matek/matek-strategia.md']
 };
 
 const db = {};

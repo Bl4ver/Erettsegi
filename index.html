@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Készülj az érettségire!</title>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <link rel="stylesheet" href="style.css">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
@@ -23,6 +25,7 @@
         <button class="nav-btn theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙</button>
     </nav>
 
+
     <div id="irodalom-subnav" class="sub-nav">
         <button class="sub-nav-btn active" onclick="openSubCategory('irodalom-tablazat', 'irodalom')">Művek</button>
         <button class="sub-nav-btn" onclick="openSubCategory('irodalom-munemek', 'irodalom')">Műnemek</button>
@@ -35,6 +38,24 @@
             Táblázata</button>
         <button class="sub-nav-btn" onclick="openSubCategory('tori-korszakok', 'tori')">Történelmi Korok</button>
     </div>
+
+    <div id="matek-subnav" class="sub-nav" style="display: none;">
+        <button class="sub-nav-btn active" onclick="openSubCategory('matek-fogalmak', 'matek')">Elmélet és
+            Fogalmak</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('matek-kepletek', 'matek')">Képletgyűjtemény</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('matek-feladatok', 'matek')">Típusfeladatok</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('matek-strategia', 'matek')">Vizsgastratégia &
+            Tippek</button>
+    </div>
+
+    <div id="nyelvtan-subnav" class="sub-nav" style="display: none;">
+        <button class="sub-nav-btn active"
+            onclick="openSubCategory('nyelvtan-fogalmak', 'nyelvtan')">Alapfogalmak</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('nyelvtan-szovegalkotas', 'nyelvtan')">Szövegalkotás és
+            Érvelés</button>
+        <button class="sub-nav-btn" onclick="openSubCategory('nyelvtan-helyesiras', 'nyelvtan')">Helyesírás</button>
+    </div>
+
 
     <div class="container">
 
@@ -68,10 +89,7 @@
 
         <div id="irodalom-korszakok" class="content-section">
             <h2>🏛️ Irodalmi Korszakok</h2>
-            <div id="irodalom-korszakok-table-container">
-                <p>Ide is készíthetsz majd egy Excel fájlt (pl. irodalom-korszakok.xlsx), és amint beírod a
-                    script.js-be, meg fog itt jelenni!</p>
-            </div>
+            <div id="irodalom-korszakok-table-container"></div>
         </div>
 
 
@@ -82,20 +100,45 @@
 
         <div id="tori-korszakok" class="content-section">
             <h2>⏳ Történelmi Korok</h2>
-            <div id="tori-korszakok-table-container">
-                <p>Őskor, Ókor, Középkor, Újkor, Jelenkor... Ide is jöhet majd egy táblázat!</p>
-            </div>
+            <div id="tori-korszakok-table-container"></div>
         </div>
 
 
-        <div id="matek-main" class="content-section">
-            <h2>📐 Matematika</h2>
-            <p>Képletek és tételek helye...</p>
+        <div id="matek-fogalmak" class="content-section">
+            <h2>🧠 Matematikai Fogalomtár</h2>
+            <div class="info-box">Az I. rész (rövid feladatok) hibátlan megoldásához elengedhetetlen elmélet.</div>
+            <div id="matek-fogalmak-table-container"></div>
         </div>
 
-        <div id="nyelvtan-main" class="content-section">
-            <h2>✍️ Nyelvtan</h2>
-            <p>Nyelvtani szabályok...</p>
+        <div id="matek-kepletek" class="content-section">
+            <h2>📐 Képletgyűjtemény (Függvénytábla kivonat)</h2>
+            <div id="matek-kepletek-table-container"></div>
+        </div>
+
+        <div id="matek-feladatok" class="content-section">
+            <h2>📝 Kidolgozott Típusfeladatok</h2>
+            <div id="matek-feladatok-table-container"></div>
+        </div>
+
+        <div id="matek-strategia" class="content-section">
+            <h2>💡 Érettségi Túlélőkészlet: Stratégia és Trükkök</h2>
+            <div id="matek-strategia-table-container"></div>
+        </div>
+
+
+        <div id="nyelvtan-fogalmak" class="content-section">
+            <h2>🧠 Nyelvtani Alapfogalmak és Témakörök</h2>
+            <div id="nyelvtan-fogalmak-table-container"></div>
+        </div>
+
+        <div id="nyelvtan-szovegalkotas" class="content-section">
+            <h2>✍️ Szövegalkotás és Érveléstechnika</h2>
+            <div id="nyelvtan-szovegalkotas-table-container"></div>
+        </div>
+
+        <div id="nyelvtan-helyesiras" class="content-section">
+            <h2>📝 Helyesírási Alapelvek</h2>
+            <div id="nyelvtan-helyesiras-table-container"></div>
         </div>
 
     </div>
