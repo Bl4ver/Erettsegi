@@ -602,7 +602,7 @@ body[data-theme="dark"] .category-row.collapsed td { background-color: #3a3a3b !
         font-size: 14px; 
     }
     
-    th, td { padding: 15px 12px; }
+    th, td { padding: 15px 10px; }
     
     /* Fix oszlopszélességek a szép dizájnért */
     th:nth-child(1), td:nth-child(1) { width: 90px; text-align: center; }  /* Állapot */
