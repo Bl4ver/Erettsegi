@@ -4,7 +4,6 @@
 const fileMapping = {
     'irodalom-tablazat': ['adatok/irodalom-tablazat.xlsx'],
     'irodalom-munemek': ['adatok/irodalom-munemek.csv'],
-    // Hibrid betöltés: Szöveg és táblázat egyszerre!
     'irodalom-mufajok': [
         'adatok/irodalom-mufajok.csv',
         'adatok/irodalom-mufajok.md'
@@ -15,17 +14,106 @@ const fileMapping = {
 
 const db = {};
 
-// Tanulási állapot tároló
-let userStatus = JSON.parse(localStorage.getItem('tanulasiAllapot')) || {};
+// ==========================================
+// ÚJ, BOMBABIZTOS ALAPADATOK (BASE64 NÉLKÜL)
+// ==========================================
+// ==========================================
+// ÚJ, BOMBABIZTOS ALAPADATOK (103 TÉTEL)
+// ==========================================
+const defaultCoreItems = [
+    // --- ANTIKVITÁS & KÖZÉPKOR ---
+    ["Homérosz", "Iliász"], ["Homérosz", "Odüsszeia"],
+    ["Szophoklész", "Antigoné"], ["Szophoklész", "Oedipus király"],
+    ["Catullus", "Gyűlölök és szeretek"],
+    ["Biblia", "A teremtés könyve"], ["Biblia", "József története"], ["Biblia", "Jónás könyve"], ["Biblia", "Máté evangéliuma"],
+    ["Dante Alighieri", "Pokol"],
+    ["François Villon", "A Nagy Testamentum"],
+    ["Ismeretlen", "Halotti beszéd és könyörgés"], ["Ismeretlen", "Ómagyar Mária-siralom"],
+
+    // --- RENESZÁNSZ & BAROKK ---
+    ["Janus Pannonius", "Búcsú Váradtól"], ["Janus Pannonius", "Egy dunántúli mandulafáról"],
+    ["Boccaccio", "Dekameron"],
+    ["William Shakespeare", "Hamlet"], ["William Shakespeare", "Romeo és Júlia"], ["William Shakespeare", "Szonettek (XII., LXXV.)"],
+    ["Balassi Bálint", "Hogy Júliára talála, így köszöne neki"], ["Balassi Bálint", "Egy katonaének (In laudem confiniorum)"], ["Balassi Bálint", "Adj már csendességet..."],
+    ["Zrínyi Miklós", "Szigeti veszedelem"], ["Zrínyi Miklós", "Az török áfium ellen való orvosság"],
+    ["Mikes Kelemen", "Törökországi levelek"],
+    ["Molière", "Tartuffe"],
+
+    // --- FELVILÁGOSODÁS & REFORMKOR ---
+    ["Voltaire", "Candide"], ["Johann Wolfgang von Goethe", "Faust I."],
+    ["Csokonai Vitéz Mihály", "Az estve"], ["Csokonai Vitéz Mihály", "A Reményhez"], ["Csokonai Vitéz Mihály", "A tihanyi Ekhóhoz"], ["Csokonai Vitéz Mihály", "Tartózkodó kérelem"],
+    ["Berzsenyi Dániel", "A közelítő tél"], ["Berzsenyi Dániel", "A magyarokhoz (I.)"],
+    ["Katona József", "Bánk bán"],
+    ["Kölcsey Ferenc", "Himnusz"], ["Kölcsey Ferenc", "Vanitatum vanitas"], ["Kölcsey Ferenc", "Parainesis Kölcsey Kálmánhoz"],
+    ["Vörösmarty Mihály", "Szózat"], ["Vörösmarty Mihály", "Gondolatok a könyvtárban"], ["Vörösmarty Mihály", "Előszó"], ["Vörösmarty Mihály", "A vén cigány"],
+
+    // --- ROMANTIKA & 19. SZÁZAD KÖZEPE ---
+    ["Petőfi Sándor", "Szeptember végén"], ["Petőfi Sándor", "Egy gondolat bánt engemet"], ["Petőfi Sándor", "A puszta, télen"], ["Petőfi Sándor", "A XIX. század költői"], ["Petőfi Sándor", "Az apostol"], ["Petőfi Sándor", "Fa leszek, ha..."],
+    ["Jókai Mór", "Az arany ember"], ["Jókai Mór", "A kőszívű ember fiai"],
+    ["Madách Imre", "Az ember tragédiája"],
+    ["Arany János", "Ágnes asszony"], ["Arany János", "A walesi bárdok"], ["Arany János", "Szondi két apródja"], ["Arany János", "Tetemre hívás"], ["Arany János", "Tengeri-hántás"], ["Arany János", "Epilogus"], ["Arany János", "Letészem a lantot"], ["Arany János", "Toldi"],
+
+    // --- REALIZMUS ---
+    ["Honoré de Balzac", "Goriot apó"],
+    ["Fjodor Mihajlovics Dosztojevszkij", "Bűn és bűnhődés"],
+    ["Stendhal", "Vörös és fekete"],
+    ["Nyikolaj Vasziljevics Gogol", "A köpönyeg"],
+    ["Mikszáth Kálmán", "Az a fekete folt"], ["Mikszáth Kálmán", "Bede Anna tartozása"], ["Mikszáth Kálmán", "A bágyi csoda"],
+
+    // --- MODERNIZMUS / NYUGAT ---
+    ["Charles Baudelaire", "Az albatrosz"], ["Charles Baudelaire", "Egy dög"], ["Charles Baudelaire", "Kapcsolatok"],
+    ["Paul Verlaine", "Őszi chanson"],
+    ["Ady Endre", "Góg és Magóg fia vagyok én..."], ["Ady Endre", "Héja-nász az avaron"], ["Ady Endre", "Harc a Nagyúrral"], ["Ady Endre", "A Sion-hegy alatt"], ["Ady Endre", "Kocsi-út az éjszakában"], ["Ady Endre", "Őrizem a szemed"], ["Ady Endre", "Emlékezés egy nyár-éjszakára"], ["Ady Endre", "Elbocsátó, szép üzenet"],
+    ["Babits Mihály", "Esti kérdés"], ["Babits Mihály", "Jónás könyve"], ["Babits Mihály", "Húsvét előtt"], ["Babits Mihály", "Balázsolás"], ["Babits Mihály", "A lírikus epilógja"],
+    ["Kosztolányi Dezső", "A szegény kisgyermek panaszai"], ["Kosztolányi Dezső", "Halotti beszéd"], ["Kosztolányi Dezső", "Hajnali részegség"], ["Kosztolányi Dezső", "Édes Anna"], ["Kosztolányi Dezső", "Fürdés"], ["Kosztolányi Dezső", "Esti Kornél"],
+    ["Móricz Zsigmond", "Tragédia"], ["Móricz Zsigmond", "Barbárok"], ["Móricz Zsigmond", "Úri muri"],
+    ["Juhász Gyula", "Tiszai csönd"], ["Juhász Gyula", "Anna örök"],
+    ["Tóth Árpád", "Esti sugárkoszorú"], ["Tóth Árpád", "Lélektől lélekig"],
+    ["Krúdy Gyula", "Szindbád"],
+
+    // --- AVANTGÁRD & KÉSŐI MODERN & POSZTMODERN ---
+    ["Kassák Lajos", "A ló meghal a madarak kirepülnek"],
+    ["József Attila", "Holt vidék"], ["József Attila", "Óda"], ["József Attila", "A Dunánál"], ["József Attila", "Reménytelenül"], ["József Attila", "Kései sirató"], ["József Attila", "Tudod, hogy nincs bocsánat"], ["József Attila", "(Karóval jöttél...)"],
+    ["Radnóti Miklós", "Hetedik ecloga"], ["Radnóti Miklós", "Erőltetett menet"], ["Radnóti Miklós", "Razglednicák"], ["Radnóti Miklós", "Járkálj csak, halálraítélt!"],
+    ["Szabó Lőrinc", "Semmiért Egészen"],
+    ["Franz Kafka", "Az átváltozás"],
+    ["George Orwell", "1984"],
+    ["Örkény István", "Egyperces novellák"], ["Örkény István", "Tóték"],
+    ["Pilinszky János", "Apokrif"], ["Pilinszky János", "Négysoros"],
+    ["Illyés Gyula", "Egy mondat a zsarnokságról"], ["Illyés Gyula", "Puszták népe"],
+    ["Márai Sándor", "Mennyből az angyal"],
+    ["Kányádi Sándor", "Halottak napja Bécsben"]
+];
+
+function normalize(str) {
+    if (!str) return '';
+    let s = str.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return s.replace(/ph/g, 'f').replace(/sz/g, 's').replace(/cz/g, 'c').replace(/th/g, 't').replace(/y/g, 'i');
+}
+
+// Tanulási állapot betöltése
+let userStatus = JSON.parse(localStorage.getItem('tanulasiAllapot'));
+
+// Ha ELŐSZÖR nyitja meg valaki, vagy üres, betöltjük a fenti listából
+if (!userStatus || Object.keys(userStatus).length < 5) {
+    userStatus = {};
+    defaultCoreItems.forEach(item => {
+        // Alkotó + Mű összefűzése
+        const rowId = normalize("irodalom-tablazat" + item[0] + item[1]);
+        userStatus[rowId] = { fontos: true, kesz: false };
+    });
+    localStorage.setItem('tanulasiAllapot', JSON.stringify(userStatus));
+    console.log("Alapértelmezett érettségi adatok betöltve!");
+}
 
 function saveToLocal() {
     localStorage.setItem('tanulasiAllapot', JSON.stringify(userStatus));
     updateSyncDisplay();
 }
 
-// Kód generálása (Base64)
+// Kód generálása
 function updateSyncDisplay() {
-   const jsonStr = JSON.stringify(userStatus);
+    const jsonStr = JSON.stringify(userStatus);
     const code = btoa(unescape(encodeURIComponent(jsonStr)));
     const input = document.getElementById('sync-code-input');
     if (input) input.value = code;
@@ -42,12 +130,11 @@ function importSyncCode() {
     const code = document.getElementById('import-code-input').value.trim();
     if (!code) return;
     try {
-        // Visszafejtésnél fordítva csináljuk: atob() -> escape() -> decodeURIComponent()
         const decodedStr = decodeURIComponent(escape(atob(code)));
         const decoded = JSON.parse(decodedStr);
         userStatus = decoded;
         saveToLocal();
-        location.reload(); // Frissítjük az oldalt a változásokhoz
+        location.reload();
     } catch (e) {
         alert("Hiba: Ez a kód nem érvényes vagy sérült!");
         console.error("Betöltési hiba:", e);
@@ -58,12 +145,10 @@ function toggleStatus(id, type) {
     if (!userStatus[id]) userStatus[id] = { fontos: false, kesz: false };
     userStatus[id][type] = !userStatus[id][type];
     saveToLocal();
-    
-    // Csak az adott szekciót rajzoljuk újra
+
     const activeSubId = document.querySelector('.content-section.active').id;
     const searchInput = document.getElementById(`${activeSubId}-search-input`);
-    
-    // Ha van keresés/szűrés érvényben, inkább azt frissítjük, hogy ne tűnjenek el a szűrők
+
     if (searchInput) {
         searchInput.dispatchEvent(new Event('input'));
     } else {
@@ -98,7 +183,7 @@ function openSubCategory(subId, subject) {
         parentNav.querySelectorAll('.sub-nav-btn').forEach(btn => btn.classList.remove('active'));
         event.currentTarget.classList.add('active');
     }
-    
+
     document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
     const section = document.getElementById(subId);
     if (section) section.classList.add('active');
@@ -113,12 +198,6 @@ function openSubCategory(subId, subject) {
 // ==========================================
 // MARK: 3. SZUPER-OKOS KERESŐ MOTOR
 // ==========================================
-function normalize(str) {
-    if (!str) return '';
-    let s = str.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    return s.replace(/ph/g, 'f').replace(/sz/g, 's').replace(/cz/g, 'c').replace(/th/g, 't').replace(/y/g, 'i');
-}
-
 function levenshtein(a, b) {
     if (a.length === 0) return b.length;
     if (b.length === 0) return a.length;
@@ -169,7 +248,7 @@ function isSmartMatch(text, query) {
 }
 
 // ==========================================
-// MARK: 4. ADATOK BETÖLTÉSE (Hibrid motor)
+// MARK: 4. ADATOK BETÖLTÉSE
 // ==========================================
 function loadData(fileList, subId) {
     const container = document.getElementById(`${subId}-table-container`);
@@ -177,7 +256,6 @@ function loadData(fileList, subId) {
 
     container.innerHTML = '<p class="loading-text">📚 Tudásanyag összeállítása... ⏳</p>';
 
-    // Fájlok párhuzamos letöltése
     const fetchPromises = fileList.map(filePath => {
         return fetch(filePath).then(response => {
             if (!response.ok) throw new Error(`Hiba: ${filePath}`);
@@ -188,17 +266,15 @@ function loadData(fileList, subId) {
     });
 
     Promise.all(fetchPromises).then(results => {
-        container.innerHTML = ''; // Konténer ürítése
+        container.innerHTML = '';
 
         results.forEach((result, index) => {
             if (result.type === 'md') {
-                // 1. MARKDOWN SZÖVEG BEILLESZTÉSE
                 const textDiv = document.createElement('div');
                 textDiv.className = 'text-content';
                 textDiv.innerHTML = marked.parse(result.data);
                 container.appendChild(textDiv);
             } else {
-                // 2. TÁBLÁZAT BEILLESZTÉSE
                 const tableWrapper = document.createElement('div');
                 tableWrapper.className = 'table-wrapper';
                 tableWrapper.id = `${subId}-wrapper-${index}`;
@@ -211,7 +287,7 @@ function loadData(fileList, subId) {
                     const workbook = XLSX.read(result.data, { type: 'array' });
                     rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: "" });
                 }
-                
+
                 processAndRender(rawData, subId, tableWrapper);
             }
         });
@@ -223,7 +299,7 @@ function loadData(fileList, subId) {
 function processAndRender(rawData, subId, targetElement) {
     const headers = rawData[0].map((col, index) => col ? String(col).trim() : `Oszlop ${index + 1}`);
     const parsedData = [];
-    
+
     for (let i = 1; i < rawData.length; i++) {
         if (rawData[i].join("").trim() !== "") {
             let rowData = {};
@@ -233,18 +309,12 @@ function processAndRender(rawData, subId, targetElement) {
             parsedData.push(rowData);
         }
     }
-    
-    // Globális adatbázis frissítése (a kereső miatt)
+
     db[subId] = { headers: headers, data: parsedData, loaded: true };
-    
-    // UI felépítése az adott tárolóban
     initSearchBar(subId, headers, targetElement);
     renderTable(db[subId].data, subId, targetElement);
 }
 
-// ==========================================
-// ÚJ: BOMBABIZTOS CSV OLVASÓ
-// ==========================================
 function parseCSV(str, delimiter = ';') {
     const result = [];
     let row = [];
@@ -264,7 +334,7 @@ function parseCSV(str, delimiter = ';') {
             row.push(currentVal.trim());
             currentVal = '';
         } else if ((char === '\n' || char === '\r') && !inQuotes) {
-            if (char === '\r' && nextChar === '\n') i++; 
+            if (char === '\r' && nextChar === '\n') i++;
             row.push(currentVal.trim());
             if (row.join('').trim() !== '') result.push(row);
             row = [];
@@ -283,7 +353,6 @@ function parseCSV(str, delimiter = ';') {
 // KERESŐ SÁV
 // ==========================================
 function initSearchBar(subId, headers, targetElement) {
-    // Ne hozzunk létre duplikált keresőt ugyanahhoz az aloldalhoz
     if (document.getElementById(`${subId}-search-section`)) return;
 
     const searchSec = document.createElement('div');
@@ -323,11 +392,10 @@ function initSearchBar(subId, headers, targetElement) {
         const showDone = doneCheck.checked;
 
         const filteredData = db[subId].data.filter(row => {
-            // JAVÍTÁS: Egyedi azonosító oszlopok összevonásával a szűrőben is
             const firstColValue = String(row[db[subId].headers[0]] || "").trim();
             const secondColValue = db[subId].headers.length > 1 ? String(row[db[subId].headers[1]] || "").trim() : "";
             const rowId = normalize(subId + firstColValue + secondColValue);
-            
+
             const status = userStatus[rowId] || { fontos: false, kesz: false };
 
             if (onlyFav && !status.fontos) return false;
@@ -340,8 +408,7 @@ function initSearchBar(subId, headers, targetElement) {
                 return isSmartMatch(row[col], query);
             }
         });
-        
-        // Frissítjük a táblázatot az aktuális targetElementben
+
         renderTable(filteredData, subId, targetElement);
     };
 
@@ -366,12 +433,34 @@ function renderTable(data, subId, targetElement) {
     updateSyncDisplay();
     const headers = db[subId].headers;
 
-    let tableHTML = '<div class="table-responsive"><table><thead><tr>';
+    // --- ÚJ: TÉTELEK MEGSZÁMOLÁSA ---
+    let itemCount = 0;
+    data.forEach(row => {
+        const firstColValue = String(row[headers[0]] || "").trim();
+        const isCategory = headers.slice(1).every(h => {
+            const val = String(row[h] || "").trim();
+            return val === "" || val === "-";
+        });
+        // Ha a sor nem üres és nem csak egy alcím (kategória), akkor az egy tanulható tétel
+        if (firstColValue !== "" && !isCategory) {
+            itemCount++;
+        }
+    });
+
+    // Számláló UI hozzáadása a HTML-hez
+    let tableHTML = `
+        <div class="item-count-display" style="margin-bottom: 15px; display: flex; align-items: center;">
+            <span style="background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
+                📚 Listázott tételek: ${itemCount} db
+            </span>
+        </div>
+        <div class="table-responsive"><table><thead><tr>`;
+
     tableHTML += '<th style="width: 100px; text-align: center;">Állapot</th>';
     headers.forEach(header => { tableHTML += `<th>${header}</th>`; });
     tableHTML += '</tr></thead><tbody>';
 
-    let currentCatId = 0; // Ezzel számozzuk a kategóriákat
+    let currentCatId = 0;
 
     data.forEach(row => {
         const firstColValue = String(row[headers[0]] || "").trim();
@@ -380,9 +469,8 @@ function renderTable(data, subId, targetElement) {
             return val === "" || val === "-";
         });
 
-        // Alcím / Kategória
         if (firstColValue !== "" && isCategory) {
-            currentCatId++; // Növeljük a kategória sorszámát
+            currentCatId++;
             tableHTML += `
                 <tr class="category-row" onclick="toggleCategoryRow(this, '${subId}-cat-${currentCatId}')">
                     <td colspan="${headers.length + 1}">
@@ -392,26 +480,21 @@ function renderTable(data, subId, targetElement) {
             return;
         }
 
-        // JAVÍTÁS: Egyedi azonosító generálása az első ÉS második oszlop alapján (pl. Alkotó + Mű)
         const secondColValue = headers.length > 1 ? String(row[headers[1]] || "").trim() : "";
         const rowId = normalize(subId + firstColValue + secondColValue);
-        
+
         const status = userStatus[rowId] || { fontos: false, kesz: false };
         const rowStyle = status.kesz ? 'opacity: 0.5; background: rgba(0,0,0,0.02);' : '';
-        
-        // Hozzáadjuk a sorhoz, hogy melyik kategóriába (alcím alá) tartozik
         const catClass = currentCatId > 0 ? `${subId}-cat-${currentCatId}` : '';
 
         tableHTML += `<tr class="data-row ${catClass}" style="${rowStyle}">`;
 
-        // Állapot cella
         tableHTML += `
             <td class="status-cell" data-label="Állapot">
                 <span onclick="toggleStatus('${rowId}', 'fontos')" class="star ${status.fontos ? 'active' : ''}">★</span>
                 <span onclick="toggleStatus('${rowId}', 'kesz')" class="check ${status.kesz ? 'active' : ''}">✔</span>
             </td>`;
 
-        // Adatcellák
         headers.forEach(header => {
             let rawValue = row[header];
             let contentHTML = "";
@@ -443,14 +526,9 @@ function renderTable(data, subId, targetElement) {
     });
 
     tableHTML += '</tbody></table></div>';
-    
-    // Ha keresünk, csak a táblázat részt cseréljük le, ne az egész konténert
-    const existingTable = container.querySelector('.table-responsive');
-    if (existingTable) {
-        existingTable.outerHTML = tableHTML;
-    } else {
-        container.innerHTML += tableHTML;
-    }
+
+    // Egyszerű és tiszta DOM frissítés
+    container.innerHTML = tableHTML;
 }
 
 // ==========================================
@@ -460,7 +538,7 @@ const currentTheme = localStorage.getItem('theme') || 'light';
 if (currentTheme === 'dark') {
     document.body.setAttribute('data-theme', 'dark');
     const themeBtn = document.getElementById('theme-btn');
-    if(themeBtn) themeBtn.innerText = '☀️';
+    if (themeBtn) themeBtn.innerText = '☀️';
 }
 
 function toggleTheme() {
@@ -469,11 +547,11 @@ function toggleTheme() {
 
     if (body.getAttribute('data-theme') === 'dark') {
         body.removeAttribute('data-theme');
-        if(themeBtn) themeBtn.innerText = '🌙';
+        if (themeBtn) themeBtn.innerText = '🌙';
         localStorage.setItem('theme', 'light');
     } else {
         body.setAttribute('data-theme', 'dark');
-        if(themeBtn) themeBtn.innerText = '☀️';
+        if (themeBtn) themeBtn.innerText = '☀️';
         localStorage.setItem('theme', 'dark');
     }
 }
@@ -484,9 +562,8 @@ function toggleTheme() {
 // ==========================================
 document.addEventListener('click', function (e) {
     const row = e.target.closest('tbody tr');
-    
+
     if (window.innerWidth <= 800 && row) {
-        // KIVÉTEL: Ha az alcímre kattintunk, ne csináljon semmit a mobil kártyákkal!
         if (row.classList.contains('category-row')) return;
 
         if (!e.target.classList.contains('star') && !e.target.classList.contains('check')) {
@@ -499,19 +576,17 @@ document.addEventListener('click', function (e) {
     }
 });
 
-// KATEGÓRIÁK LENYITÁSA / ÖSSZECSUKÁSA
 function toggleCategoryRow(rowElement, catGroupId) {
     rowElement.classList.toggle('collapsed');
     const isCollapsed = rowElement.classList.contains('collapsed');
-    
-    // Megkeressük az összes sort, ami ehhez a kategóriához tartozik
+
     const rows = rowElement.closest('table').querySelectorAll(`.${catGroupId}`);
-    
+
     rows.forEach(r => {
         if (isCollapsed) {
-            r.style.display = 'none'; // Elrejtés
+            r.style.display = 'none';
         } else {
-            r.style.display = '';     // Megjelenítés
+            r.style.display = '';
         }
     });
 }
