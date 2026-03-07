@@ -2,13 +2,18 @@
 // MARK: 1. BEÁLLÍTÁSOK (A Te szótárad)
 // ==========================================
 const fileMapping = {
-    'irodalom-tablazat': ['adatok/irodalom-tablazat.xlsx'],
-    'irodalom-munemek': ['adatok/irodalom-munemek.csv'],
-    'irodalom-korszakok': ['adatok/irodalom-korszakok.csv'],
+    'irodalom-tablazat': ['adatok/irodalom/irodalom-tablazat.xlsx'],
+    'irodalom-munemek': ['adatok/irodalom/irodalom-munemek.csv'],
+    'irodalom-mufajok': ['adatok/irodalom/irodalom-mufajok.csv'],
+    'irodalom-korszakok': ['adatok/irodalom/irodalom-korszakok.csv'],
     'irodalom-mufajok': [
-        'adatok/irodalom-mufajok.csv',
-        'adatok/irodalom-mufajok.md'
+        'adatok/irodalom/irodalom-mufajok.csv',
+        'adatok/irodalom/irodalom-mufajok.md',
+    ], 'irodalom-szerzok': [
+        'adatok/irodalom/szerzok/Homerosz.md',
+        'adatok/irodalom/szerzok/Szophoklesz.md',
     ],
+
     'tori-tablazat': ['adatok/tori-tablazat.xlsx'],
     // Matematika bekötése (4 különálló alkategória)
     'matek-fogalmak': ['adatok/matek/matek-fogalmak.csv'],
@@ -19,9 +24,6 @@ const fileMapping = {
 
 const db = {};
 
-// ==========================================
-// ÚJ, BOMBABIZTOS ALAPADATOK (BASE64 NÉLKÜL)
-// ==========================================
 // ==========================================
 // ÚJ, BOMBABIZTOS ALAPADATOK (103 TÉTEL)
 // ==========================================

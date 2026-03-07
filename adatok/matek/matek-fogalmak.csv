@@ -1,15 +1,28 @@
-Témakör;Fogalom;Definíció / Magyarázat
-Számhalmazok;Természetes számok (N);A pozitív egész számok és a nulla. (0, 1, 2, 3, ...)
-Számhalmazok;Egész számok (Z);Pozitív és negatív egész számok, valamint a nulla. (..., -2, -1, 0, 1, 2, ...)
-Számhalmazok;Racionális számok (Q);Minden olyan szám, amely felírható két egész szám hányadosaként (törtként), ahol az osztó nem nulla.
-Számelmélet;Prímszám;Olyan természetes szám, amelynek pontosan két pozitív osztója van: az 1 és önmaga. (pl. 2, 3, 5, 7, 11). A 0 és az 1 NEM prímszám!
-Számelmélet;Legnagyobb közös osztó (LNKO);Két vagy több szám közös osztói közül a legnagyobb. (Törtek egyszerűsítésénél hasznos).
-Számelmélet;Legkisebb közös többszörös (LKKT);A legkisebb olyan pozitív szám, amely az adott számok mindegyikével osztható. (Közös nevezőre hozásnál kell).
-Függvények;Zérushely;Az $x$ tengely (vízszintes tengely) azon pontja, ahol a függvény grafikonja metszi a tengelyt. Itt a függvény értéke ($y$) nulla.
-Függvények;Értelmezési tartomány (É.T.);Az $x$ értékek (bemenetek) halmaza, amelyre a függvényt értelmezzük (ahol a kifejezésnek van értelme). Kikötések: nevező nem lehet 0, gyök alatt nem lehet negatív, logaritmus mögött csak pozitív lehet.
-Függvények;Értékkészlet (É.K.);Az $y$ értékek (kimenetek) halmaza, amelyeket a függvény felvesz.
-Statisztika;Módusz;Egy adatsorban a leggyakrabban előforduló érték.
-Statisztika;Medián;A nagyság szerint sorba rendezett adatsor középső eleme. (Páros számú adat esetén a két középső átlaga).
-Statisztika;Átlag (Számtani közép);Az adatok összegének és darabszámának hányadosa.
-Statisztika;Terjedelem;Az adatsor legnagyobb és legkisebb elemének különbsége (Max - Min).
-Geometria;Konvex sokszög;Olyan sokszög, amelynek minden belső szöge kisebb 180 foknál. Bármely két pontját összekötő szakasz a sokszögön belül halad.
+Témakör;Fogalom / Képlet;Magyarázat és Szabályok
+Algebra;Nevezetes azonosság (összeg négyzete);$(a+b)^2 = a^2 + 2ab + b^2$
+Algebra;Nevezetes azonosság (különbség négyzete);$(a-b)^2 = a^2 - 2ab + b^2$
+Algebra;Két négyzet különbsége;$a^2 - b^2 = (a-b)(a+b)$
+Algebra;Másodfokú egyenlet megoldóképlete;$x_{1,2} = \frac{-b \pm \sqrt{b^2-4ac}}{2a}$ (Feltétel: $a \neq 0$)
+Algebra;Diszkrimináns;$D = b^2 - 4ac$. Ha $D>0$, két valós gyök van. Ha $D=0$, egy (kettős) gyök van. Ha $D<0$, nincs valós gyök.
+Hatványozás;Azonos alapú hatványok szorzása;$a^n \cdot a^m = a^{n+m}$ (A kitevők összeadódnak)
+Hatványozás;Azonos alapú hatványok osztása;$\frac{a^n}{a^m} = a^{n-m}$ (A kitevők kivonódnak egymásból)
+Hatványozás;Hatvány hatványozása;$(a^n)^m = a^{n \cdot m}$ (A kitevők összeszorzódnak)
+Logaritmus;A logaritmus definíciója;$\log_a(b) = c$ azt jelenti, hogy $a^c = b$. (Feltétel: $a>0$, $a \neq 1$, $b>0$)
+Logaritmus;Szorzat logaritmusa;$\log_a(x \cdot y) = \log_a(x) + \log_a(y)$
+Logaritmus;Hányados logaritmusa;$\log_a(\frac{x}{y}) = \log_a(x) - \log_a(y)$
+Sorozatok;Számtani sorozat n-edik tagja;$a_n = a_1 + (n-1)d$ (ahol $d$ a differencia)
+Sorozatok;Számtani sorozat első n tagjának összege;$S_n = \frac{a_1 + a_n}{2} \cdot n$
+Sorozatok;Mértani sorozat n-edik tagja;$a_n = a_1 \cdot q^{n-1}$ (ahol $q$ a hányados)
+Sorozatok;Mértani sorozat első n tagjának összege;$S_n = a_1 \cdot \frac{q^n - 1}{q - 1}$ (ha $q \neq 1$)
+Geometria;Pitagorasz-tétel;$a^2 + b^2 = c^2$ (Kizárólag derékszögű háromszögre érvényes, $c$ az átfogó)
+Geometria;Háromszög területe (alap-magasság);$T = \frac{a \cdot m_a}{2}$
+Geometria;Háromszög területe (trigonometrikus);$T = \frac{a \cdot b \cdot \sin(\gamma)}{2}$
+Trigonometria;Trigonometrikus Pitagorasz-tétel;$\sin^2(\alpha) + \cos^2(\alpha) = 1$
+Trigonometria;Szinusztétel;$\frac{a}{b} = \frac{\sin(\alpha)}{\sin(\beta)}$ (Bármely háromszögben az oldalak aránya egyenlő a szemközti szögek szinuszainak arányával)
+Trigonometria;Koszinusztétel;$c^2 = a^2 + b^2 - 2ab \cdot \cos(\gamma)$ (Bármely háromszögre érvényes)
+Koordináta-geom.;Két pont távolsága a síkon;$d = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}$
+Koordináta-geom.;Szakasz felezőpontja;$F(\frac{x_1+x_2}{2}, \frac{y_1+y_2}{2})$
+Koordináta-geom.;Kör egyenlete;$(x-u)^2 + (y-v)^2 = r^2$ (Ahol a középpont $K(u, v)$ és a sugár $r$)
+Valószínűség;Klasszikus valószínűségi modell;$P(A) = \frac{k}{n}$ (Kedvező esetek száma osztva az összes eset számával)
+Kombinatorika;Permutáció (Sorrendek száma);$P_n = n!$ (n faktoriális: $n \cdot (n-1) \cdot ... \cdot 1$)
+Kombinatorika;Kombináció (Kiválasztás sorrend nélkül);$\binom{n}{k} = \frac{n!}{k!(n-k)!}$ ("n alatt a k")
